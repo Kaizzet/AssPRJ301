@@ -41,7 +41,6 @@ public class MainController extends HttpServlet {
                     int totalProducts = productDAO.getTotalProducts();
                     int totalPages = (int) Math.ceil((double) totalProducts / productsPerPage);
 
-                    // ✅ Lấy danh mục và gửi đến JSP
                     CategoryDAO categoryDAO = new CategoryDAO();
                     List<CategoryDTO> categories = categoryDAO.getAllCategories();
 

@@ -1,4 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="Product.ProductDTO" %>
+<%@ page import="Product.ProductDAO" %>
+
+<%
+    ProductDAO productDAO = new ProductDAO();
+    List<ProductDTO> products = productDAO.getProductsByPage(1, 10); // Lấy trang 1, hiển thị 10 sản phẩm
+%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -34,32 +42,37 @@
           <thead>
             <tr>
               <th><input type="checkbox" onclick="toggleAll('productsTable')"></th>
-              <th>PRODUCT</th>
-              <th>NAME</th>
               <th>PRODUCT ID</th>
+              <th>NAME</th>
+              <th>MATERIAL</th>
               <th>PRICE</th>
-              <th>PRODUCT</th>
+              <th>CATERORY</th>
               <th>AMOUNT</th>
               <th>RATE</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>PD-1001</td>
-              <td>iPhone</td>
-              <td>IPH-001</td>
-              <td>$999</td>
-              <td>Smartphone</td>
-              <td>10</td>
-              <td>4.8</td>
-              <td>
-                <span class="material-icons edit-icon" onclick="editRow(this)">edit</span>
-                <span class="material-icons delete-icon" onclick="deleteRow(this)">delete</span>
-              </td>
-            </tr>
-            <!-- Thêm dữ liệu nếu cần -->
+        <%
+            for (ProductDTO product : products) {
+        %>
+        <tr>
+            <td><input type="checkbox" name="selectProduct" value="<%= product.getProductId() %>"></td>
+            <td><%= product.getProductId() %></td>
+            <td><%= product.getName() %></td>
+            <td><%= product.getMaterial() %></td>
+            <td><%= product.getPrice() %></td>
+            <td><%= product.getCategoryId() %></td>
+            <td><%= product.getProductAmount() %></td>
+            <td><%= product.getRate() %></td>
+            <td>
+                <button onclick="editProduct('<%= product.getProductId() %>')">Edit</button>
+                <button onclick="deleteProduct('<%= product.getProductId() %>')">Delete</button>
+            </td>
+        </tr>
+        <%
+            }
+        %>
           </tbody>
         </table>
       </div>
