@@ -1,3 +1,6 @@
+<%@ page import="java.util.List" %>
+<%@ page import="Product.ProductDAO" %>
+<%@ page import="Product.ProductDTO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -34,32 +37,37 @@
           <thead>
             <tr>
               <th><input type="checkbox" onclick="toggleAll('productsTable')"></th>
-              <th>PRODUCT</th>
-              <th>NAME</th>
               <th>PRODUCT ID</th>
+              <th>NAME</th>
+              <th>MATERIAL</th>
               <th>PRICE</th>
-              <th>PRODUCT</th>
+              <th>IMAGE</th>
               <th>AMOUNT</th>
               <th>RATE</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
+            <% 
+                ProductDAO productDAO = new ProductDAO();
+                List<ProductDTO> productList = productDAO.getAllProducts();
+                for (ProductDTO product : productList) { 
+            %>
             <tr>
               <td><input type="checkbox"></td>
-              <td>PD-1001</td>
-              <td>iPhone</td>
-              <td>IPH-001</td>
-              <td>$999</td>
-              <td>Smartphone</td>
-              <td>10</td>
-              <td>4.8</td>
+              <td><%= product.getProductId() %></td>
+              <td><%= product.getName() %></td>
+              <td><%= product.getMaterial() %></td>
+              <td>$<%= product.getPrice() %></td>
+              <td><img src="<%= product.getImageUrl() %>" alt="Product Image" width="50"></td>
+              <td><%= product.getProductAmount() %></td>
+              <td><%= product.getAverageRating() %></td>
               <td>
                 <span class="material-icons edit-icon" onclick="editRow(this)">edit</span>
                 <span class="material-icons delete-icon" onclick="deleteRow(this)">delete</span>
               </td>
             </tr>
-            <!-- Thêm dữ liệu nếu cần -->
+            <% } %>
           </tbody>
         </table>
       </div>

@@ -16,6 +16,7 @@ public class OrderDTO {
     private String shippingAddress;
     private String status;
     private String createdAt;
+    private int totalItems;
 
     public int getOrderId() {
         return orderId;
@@ -63,6 +64,14 @@ public class OrderDTO {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(int totalItems) {
+        this.totalItems = totalItems;
     }
     
     

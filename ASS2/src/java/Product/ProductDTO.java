@@ -21,6 +21,8 @@ public class ProductDTO {
     private String imageUrl;
     private LocalDateTime createdAt;
     private int productAmount;
+    
+      private double averageRating;
 
     public ProductDTO() {
     }
@@ -107,6 +109,14 @@ public class ProductDTO {
 
     public void setProductAmount(int productAmount) {
         this.productAmount = productAmount;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     

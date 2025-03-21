@@ -5,6 +5,8 @@
  */
 package Review;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Longtri
@@ -15,7 +17,16 @@ public class ReviewDTO {
     private int productId;
     private int rating;
     private String comment;
-    private String createdAt;
+    private LocalDateTime createdAt;
+
+    public ReviewDTO(int reviewId, int userId, int productId, int rating, String comment, LocalDateTime createdAt) {
+        this.reviewId = reviewId;
+        this.userId = userId;
+        this.productId = productId;
+        this.rating = rating;
+        this.comment = comment;
+        this.createdAt = createdAt;
+    }
 
     public int getReviewId() {
         return reviewId;
@@ -57,12 +68,13 @@ public class ReviewDTO {
         this.comment = comment;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
     
 }
