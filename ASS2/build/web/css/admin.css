@@ -30,8 +30,21 @@ body {
 .logo {
   font-family: 'UnifrakturCook', sans-serif;
   margin-right: 30px;
-  color: #333;
+  color: #333 !important; /* Giữ màu chữ */
   font-weight: 700;
+  text-decoration: none !important; /* Loại bỏ gạch chân */
+  font-size: 24px;
+}
+
+.logo a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.logo a:hover,
+.logo a:visited {
+  color: inherit !important;
+  text-decoration: none !important;
 }
 
 .nav-menu {
@@ -143,6 +156,15 @@ tbody td {
   color: #495057;
 }
 
+/* IMAGE COLUMN - Hiển thị ảnh nhỏ vuông */
+.image-column img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 /* ICONS */
 .edit-icon {
   color: #007bff;
@@ -182,23 +204,3 @@ tbody td {
   font-weight: bold;
   border-color: #007bff;
 }
-.logo {
-  font-family: 'UnifrakturCook', sans-serif;
-  margin-right: 30px;
-  color: #333 !important; /* Đảm bảo màu chữ là màu mặc định */
-  font-weight: 700;
-  text-decoration: none !important; /* Loại bỏ gạch chân */
-  font-size: 24px;
-}
-
-.logo a {
-  color: inherit !important; /* Giữ màu chữ của logo */
-  text-decoration: none !important; /* Loại bỏ gạch chân */
-}
-
-.logo a:hover,
-.logo a:visited {
-  color: inherit !important; /* Khi hover hoặc đã click vẫn giữ màu chữ */
-  text-decoration: none !important;
-}
-
