@@ -63,7 +63,7 @@
             <button type="submit">Đăng nhập</button>
         </form>
         <a href="register.jsp" class="register-link">Tạo tài khoản</a>
-        <a href="Main.jsp" class="register-link">Quay lại cửa hàng</a>
+        <a href="index.jsp" class="register-link">Quay lại cửa hàng</a>
     </div>
 </body>
 </html>
