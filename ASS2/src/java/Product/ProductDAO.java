@@ -13,7 +13,7 @@ public class ProductDAO {
     // ✅ Lấy tất cả sản phẩm
     public List<ProductDTO> getAllProducts() {
         List<ProductDTO> products = new ArrayList<>();
-        String sql = "SELECT product_id, name, description, price, material, category_id, image_url, created_at, product_amount FROM products";
+        String sql = "SELECT * FROM products";
 
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -51,23 +51,20 @@ public class ProductDAO {
     public List<ProductDTO> getProductsByPage(int page, int productsPerPage) {
         List<ProductDTO> productList = new ArrayList<>();
         int offset = (page - 1) * productsPerPage;
-
         String sql = "SELECT * FROM products ORDER BY created_at DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, offset);
             ps.setInt(2, productsPerPage);
-
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 productList.add(mapResultSetToProduct(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return productList;
     }
 
@@ -83,58 +80,28 @@ public class ProductDAO {
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return count;
     }
 
-    // ✅ Lấy sản phẩm theo danh mục và phân trang
-    public List<ProductDTO> getProductsByCategoryAndPage(String categoryId, int page, int productsPerPage) {
-        List<ProductDTO> productList = new ArrayList<>();
-        int offset = (page - 1) * productsPerPage;
-
-        String sql = "SELECT * FROM products WHERE category_id = ? ORDER BY created_at DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    // ✅ Lấy sản phẩm theo ID (Fix lỗi UnsupportedOperationException)
+    public ProductDTO getProductById(int productId) {
+        String sql = "SELECT * FROM products WHERE product_id = ?";
 
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, categoryId);
-            ps.setInt(2, offset);
-            ps.setInt(3, productsPerPage);
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                productList.add(mapResultSetToProduct(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return productList;
-    }
-
-    // ✅ Đếm tổng số sản phẩm theo danh mục
-    public int getTotalProductsByCategory(String categoryId) {
-        int count = 0;
-        String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";
-
-        try (Connection conn = DBUtils.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, categoryId);
+            ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                count = rs.getInt(1);
+                return mapResultSetToProduct(rs);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return count;
+        return null; // Trả về null nếu không tìm thấy sản phẩm
     }
 
     // ✅ Hàm tái sử dụng để tạo ProductDTO từ ResultSet
@@ -150,9 +117,5 @@ public class ProductDAO {
                 rs.getTimestamp("created_at").toLocalDateTime(),
                 rs.getInt("product_amount")
         );
-    }
-
-    public ProductDTO getProductById(int productId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

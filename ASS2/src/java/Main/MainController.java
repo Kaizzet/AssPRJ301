@@ -2,11 +2,14 @@ package Main;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import com.google.gson.Gson;
 import Product.ProductDAO;
 import Product.ProductDTO;
 import Orders.OrderDAO;
@@ -15,6 +18,7 @@ import Users.UserDAO;
 import Users.UserDTO;
 import Category.CategoryDAO;
 import Category.CategoryDTO;
+import java.util.HashMap;
 
 @WebServlet(name = "MainController", urlPatterns = {"/MainController", "/"})
 public class MainController extends HttpServlet {
@@ -31,6 +35,8 @@ public class MainController extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         OrderDAO orderDAO = new OrderDAO();
         UserDAO userDAO = new UserDAO();
+        HttpSession session = request.getSession();
+
         try {
             switch (action) {
                 case "loadProducts":
@@ -41,7 +47,6 @@ public class MainController extends HttpServlet {
                     int totalProducts = productDAO.getTotalProducts();
                     int totalPages = (int) Math.ceil((double) totalProducts / productsPerPage);
 
-                    // ✅ Lấy danh mục và gửi đến JSP
                     CategoryDAO categoryDAO = new CategoryDAO();
                     List<CategoryDTO> categories = categoryDAO.getAllCategories();
 
@@ -55,18 +60,12 @@ public class MainController extends HttpServlet {
 
                 case "loadCategory":
                     String categoryId = request.getParameter("category");
-
-                    // ✅ Lấy danh sách sản phẩm theo danh mục được chọn
                     List<ProductDTO> categoryProducts = productDAO.getProductsByCategory(categoryId);
-
-                    // ✅ Lấy lại danh sách tất cả danh mục để hiển thị menu
-                    CategoryDAO categoryDAO2 = new CategoryDAO();
-                    List<CategoryDTO> allCategories = categoryDAO2.getAllCategories();
+                    List<CategoryDTO> allCategories = new CategoryDAO().getAllCategories();
 
                     request.setAttribute("products", categoryProducts);
                     request.setAttribute("categories", allCategories);
-                    request.setAttribute("selectedCategory", categoryId); // Để xác định danh mục nào đang được chọn
-
+                    request.setAttribute("selectedCategory", categoryId);
                     request.getRequestDispatcher("category.jsp").forward(request, response);
                     break;
 
@@ -74,23 +73,52 @@ public class MainController extends HttpServlet {
                     int productId = Integer.parseInt(request.getParameter("id"));
                     ProductDTO product = productDAO.getProductById(productId);
                     request.setAttribute("product", product);
-                    request.getRequestDispatcher("productDetail.jsp").forward(request, response);
+                    request.getRequestDispatcher("Main.jsp").forward(request, response);
                     break;
 
                 case "viewCart":
                     request.getRequestDispatcher("cart.jsp").forward(request, response);
                     break;
-
+                
+                case "addToCart":
+                    int cartProductId = Integer.parseInt(request.getParameter("productId"));
+                    HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>) session.getAttribute("cart");
+                    if (cart == null) {
+                        cart = new HashMap<>();
+                    }
+                    cart.put(cartProductId, cart.getOrDefault(cartProductId, 0) + 1);
+                    session.setAttribute("cart", cart);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"status\":\"success\"}");
+                    break;
+                
+                case "removeFromCart":
+                    int removeProductId = Integer.parseInt(request.getParameter("productId"));
+                    cart = (HashMap<Integer, Integer>) session.getAttribute("cart");
+                    if (cart != null && cart.containsKey(removeProductId)) {
+                        cart.remove(removeProductId);
+                        session.setAttribute("cart", cart);
+                    }
+                    response.sendRedirect("MainController?action=viewCart");
+                    break;
+                
+                case "getCart":
+                    cart = (HashMap<Integer, Integer>) session.getAttribute("cart");
+                    Gson gson = new Gson();
+                    response.setContentType("application/json");
+                    response.getWriter().write(gson.toJson(cart));
+                    break;
+                
                 case "checkout":
                     request.getRequestDispatcher("checkout.jsp").forward(request, response);
                     break;
-
+                
                 case "manageOrders":
                     List<OrderDTO> orders = orderDAO.getAllOrders();
                     request.setAttribute("orders", orders);
                     request.getRequestDispatcher("manageOrders.jsp").forward(request, response);
                     break;
-
+                
                 case "manageUsers":
                     List<UserDTO> users = userDAO.getAllUsers();
                     request.setAttribute("users", users);
