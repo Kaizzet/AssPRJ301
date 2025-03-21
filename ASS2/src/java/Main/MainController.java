@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import com.google.gson.Gson;
 import Product.ProductDAO;
 import Product.ProductDTO;
 import Orders.OrderDAO;
@@ -79,7 +78,7 @@ public class MainController extends HttpServlet {
                 case "viewCart":
                     request.getRequestDispatcher("cart.jsp").forward(request, response);
                     break;
-                
+
                 case "addToCart":
                     int cartProductId = Integer.parseInt(request.getParameter("productId"));
                     HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>) session.getAttribute("cart");
@@ -91,7 +90,7 @@ public class MainController extends HttpServlet {
                     response.setContentType("application/json");
                     response.getWriter().write("{\"status\":\"success\"}");
                     break;
-                
+
                 case "removeFromCart":
                     int removeProductId = Integer.parseInt(request.getParameter("productId"));
                     cart = (HashMap<Integer, Integer>) session.getAttribute("cart");
@@ -101,24 +100,31 @@ public class MainController extends HttpServlet {
                     }
                     response.sendRedirect("MainController?action=viewCart");
                     break;
-                
+
                 case "getCart":
                     cart = (HashMap<Integer, Integer>) session.getAttribute("cart");
-                    Gson gson = new Gson();
                     response.setContentType("application/json");
-                    response.getWriter().write(gson.toJson(cart));
+                    StringBuilder json = new StringBuilder("{");
+                    if (cart != null && !cart.isEmpty()) {
+                        for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                            json.append("\"").append(entry.getKey()).append("\":").append(entry.getValue()).append(",");
+                        }
+                        json.deleteCharAt(json.length() - 1); // Xóa dấu phẩy cuối cùng
+                    }
+                    json.append("}");
+                    response.getWriter().write(json.toString());
                     break;
-                
+
                 case "checkout":
                     request.getRequestDispatcher("checkout.jsp").forward(request, response);
                     break;
-                
+
                 case "manageOrders":
                     List<OrderDTO> orders = orderDAO.getAllOrders();
                     request.setAttribute("orders", orders);
                     request.getRequestDispatcher("manageOrders.jsp").forward(request, response);
                     break;
-                
+
                 case "manageUsers":
                     List<UserDTO> users = userDAO.getAllUsers();
                     request.setAttribute("users", users);
