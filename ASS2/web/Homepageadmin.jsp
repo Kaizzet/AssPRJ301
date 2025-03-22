@@ -17,8 +17,6 @@
         <li><a href="Homepageadmin.jsp" class="active">Home</a></li>
         <li><a href="Ordersadmin.jsp">Orders</a></li>
         <li><a href="Productsadmin.jsp">Products</a></li>
-        <li><a href="Employeesadmin.jsp">Employees</a></li>
-        <li><a href="Reviewsadmin.jsp">Reviews</a></li>
       </ul>
     </div>
     <div class="nav-right">

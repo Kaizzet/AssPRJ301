@@ -17,6 +17,7 @@ import Users.UserDAO;
 import Users.UserDTO;
 import Category.CategoryDAO;
 import Category.CategoryDTO;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @WebServlet(name = "MainController", urlPatterns = {"/MainController", "/"})
@@ -130,6 +131,76 @@ public class MainController extends HttpServlet {
                     request.setAttribute("users", users);
                     request.getRequestDispatcher("manageUsers.jsp").forward(request, response);
                     break;
+                case "addProduct":
+                    try {
+                        String name = request.getParameter("name");
+                        String description = request.getParameter("description");
+                        double price = Double.parseDouble(request.getParameter("price"));
+                        String material = request.getParameter("material");
+                        int addcategoryId = Integer.parseInt(request.getParameter("categoryId"));
+                        String imageUrl = request.getParameter("imageUrl");
+                        int productAmount = Integer.parseInt(request.getParameter("productAmount"));
+                        LocalDateTime createdAt = LocalDateTime.now(); // Ngày tạo hiện tại
+
+                        ProductDTO newProduct = new ProductDTO(0, name, description, price, material, addcategoryId, imageUrl, createdAt, productAmount);
+                        boolean isAdded = productDAO.addProduct(newProduct);
+
+                        if (isAdded) {
+                            response.sendRedirect("MainController?action=loadProducts&page=1");
+                        } else {
+                            request.setAttribute("error", "Thêm sản phẩm thất bại.");
+                            request.getRequestDispatcher("error.jsp").forward(request, response);
+                        }
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Lỗi khi thêm sản phẩm: " + e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                    break;
+
+                case "updateProduct":
+                    try {
+                        int updateProductId = Integer.parseInt(request.getParameter("productId"));
+                        String name = request.getParameter("name");
+                        String description = request.getParameter("description");
+                        double price = Double.parseDouble(request.getParameter("price"));
+                        String material = request.getParameter("material");
+                        int updatecategoryId = Integer.parseInt(request.getParameter("categoryId"));
+                        String imageUrl = request.getParameter("imageUrl");
+                        int productAmount = Integer.parseInt(request.getParameter("productAmount"));
+                        LocalDateTime createdAt = LocalDateTime.parse(request.getParameter("createdAt")); // Lấy ngày từ form
+
+                        ProductDTO updatedProduct = new ProductDTO(updateProductId, name, description, price, material, updatecategoryId, imageUrl, createdAt, productAmount);
+                        boolean isUpdated = productDAO.updateProduct(updatedProduct);
+
+                        if (isUpdated) {
+                            response.sendRedirect("MainController?action=loadProducts&page=1");
+                        } else {
+                            request.setAttribute("error", "Cập nhật sản phẩm thất bại.");
+                            request.getRequestDispatcher("error.jsp").forward(request, response);
+                        }
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Lỗi khi cập nhật sản phẩm: " + e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                    break;
+
+                case "deleteProduct":
+                    try {
+                        int deleteProductId = Integer.parseInt(request.getParameter("productId"));
+                        boolean isDeleted = productDAO.deleteProduct(deleteProductId);
+
+                        if (isDeleted) {
+                            response.sendRedirect("MainController?action=loadProducts&page=1");
+                        } else {
+                            request.setAttribute("error", "Xóa sản phẩm thất bại.");
+                            request.getRequestDispatcher("error.jsp").forward(request, response);
+                        }
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Lỗi khi xóa sản phẩm: " + e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                    break;
+
                 default:
                     request.getRequestDispatcher("Main.jsp").forward(request, response);
                     break;
@@ -157,4 +228,3 @@ public class MainController extends HttpServlet {
         return "Main Controller - Quản lý tất cả các chức năng chính";
     }
 }
-
