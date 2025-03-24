@@ -54,12 +54,7 @@ public final class mota_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</head>\n");
       out.write("<body>\n");
       out.write("\n");
-      out.write("    <!-- HEADER / NAVIGATION -->\n");
-      out.write("    <header class=\"header\">\n");
-      out.write("        <div class=\"logo\">\n");
-      out.write("            <h1>MENU</h1>\n");
-      out.write("        </div>\n");
-      out.write("    </header>\n");
+      out.write("\n");
       out.write("\n");
       out.write("\n");
       out.write("    <!-- PHẦN MÔ TẢ SẢN PHẨM -->\n");
@@ -116,7 +111,7 @@ public final class mota_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <div class=\"product-card\">\n");
       out.write("                <img src=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/images/demo-ring.png\" alt=\"Nhẫn 1\">\n");
+      out.write("/images/DSC06256_460x.png\" alt=\"Nhẫn 1\">\n");
       out.write("                <h3>Do It Differently Helios Silver</h3>\n");
       out.write("                <p class=\"price\">1.250.000 đ</p>\n");
       out.write("                <p>★★★★★ 7 đánh giá</p>\n");
@@ -125,7 +120,7 @@ public final class mota_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <div class=\"product-card\">\n");
       out.write("                <img src=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/images/demo-ring.png\" alt=\"Nhẫn 2\">\n");
+      out.write("/images/DSC02671_540x.png\" alt=\"Nhẫn 2\">\n");
       out.write("                <h3>A.E.F W Helios Silver</h3>\n");
       out.write("                <p class=\"price\">1.900.000 đ</p>\n");
       out.write("                <p>★★★★★ 3 đánh giá</p>\n");

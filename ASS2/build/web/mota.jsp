@@ -9,12 +9,7 @@
 </head>
 <body>
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="header">
-        <div class="logo">
-            <h1>MENU</h1>
-        </div>
-    </header>
+
 
 
     <!-- PHẦN MÔ TẢ SẢN PHẨM -->
@@ -67,14 +62,14 @@
         <h2>You may also like</h2>
         <div class="products-grid">
             <div class="product-card">
-                <img src="${pageContext.request.contextPath}/images/demo-ring.png" alt="Nhẫn 1">
+                <img src="${pageContext.request.contextPath}/images/DSC06256_460x.png" alt="Nhẫn 1">
                 <h3>Do It Differently Helios Silver</h3>
                 <p class="price">1.250.000 đ</p>
                 <p>★★★★★ 7 đánh giá</p>
                 <button class="btn-view">Xem thêm</button>
             </div>
             <div class="product-card">
-                <img src="${pageContext.request.contextPath}/images/demo-ring.png" alt="Nhẫn 2">
+                <img src="${pageContext.request.contextPath}/images/DSC02671_540x.png" alt="Nhẫn 2">
                 <h3>A.E.F W Helios Silver</h3>
                 <p class="price">1.900.000 đ</p>
                 <p>★★★★★ 3 đánh giá</p>
