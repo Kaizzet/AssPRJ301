@@ -25,6 +25,7 @@ public class UserDAO {
                 user.setAddress(rs.getString("address"));
                 user.setRole(rs.getString("role"));
                 user.setCreatedAt(rs.getString("createdAt"));
+                user.setPassword_hash(rs.getString("password_has"));
                 users.add(user);
             }
         }

@@ -58,43 +58,57 @@ nav ul li a {
     height: auto;
 }
 
-/* Product Section */
-.products {
-    text-align: center;
-    padding: 50px 0;
-}
-
+/* Container chứa danh sách sản phẩm: hiển thị theo hàng ngang */
 .product-list {
     display: flex;
-    justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    justify-content: space-between; /* Chia đều khoảng cách giữa các sản phẩm */
+    gap: 15px; /* Khoảng cách giữa các sản phẩm (nếu cần) */
 }
 
+/* Định dạng cho khung sản phẩm */
 .product {
-    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Dàn đều khoảng trống theo chiều dọc */
+    width: calc(25% - 15px); /* Điều chỉnh width để hiển thị 4 sản phẩm mỗi hàng, trừ đi khoảng cách */
     padding: 15px;
-    border-radius: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ddd;
+    box-sizing: border-box;
+}
+
+/* Các phần tử nội dung trong sản phẩm */
+.product img,
+.product h3,
+.product p {
+    margin: 5px 0;
     text-align: center;
-    width: 220px;
 }
 
-.product img {
+/* Style cho nút "Thêm nhanh" */
+.button-themnhanh {
+    display: block;
     width: 100%;
-    height: auto;
-}
-
-.product h3 {
-    margin: 10px 0;
-}
-
-button {
-    background: black;
-    color: white;
     padding: 10px;
+    background-color: #FFA500;
     border: none;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: auto; /* Đẩy nút xuống dưới khung sản phẩm */
 }
+
+/* Hiệu ứng hover cho nút */
+.button-themnhanh:hover {
+    background-color: #FF8C00;
+    transform: scale(1.05);
+    color: white;
+}
+
+
 
 header {
     display: flex;
@@ -166,7 +180,7 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
-    background: black;
+    background: transparent;
 }
 
 nav ul li {
@@ -192,6 +206,21 @@ nav ul li {
 .dropdown:hover .dropbtn {
     background: black; /* Nền đen khi hover */
     color: white; /* Hiện chữ màu trắng */
+}
+
+.title {
+    text-align: center; /* Căn giữa chữ */
+    font-size: 24px; /* Tùy chỉnh kích thước */
+    font-weight: bold;
+    margin: 20px 0; /* Cách đều trên dưới */
+}
+
+.product img {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.product img:hover {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.9);
 }
 
 
@@ -275,3 +304,186 @@ nav ul li {
     color: white !important; /* Không đổi màu khi hover */
     text-decoration: none !important;
 }
+
+.pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        padding: 8px 12px;
+        margin: 0 5px;
+        border: 1px solid #ddd;
+        color: black;
+        border-radius: 4px;
+        transition: background 0.3s;
+    }
+
+    .pagination a:hover {
+        background: black;
+        color: white;
+    }
+
+    .pagination a.active {
+        background: black;
+        color: white;
+        font-weight: bold;
+        border: 1px solid #ddd;
+    } 
+    .create-account {
+    background-color: #ffa500; /* Màu cam */
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
+    }
+
+    .create-account:hover {
+    background-color: #ff8c00; /* Màu cam đậm hơn khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+    }
+    
+    
+/* Chỉ áp dụng ảnh nền cho trang đăng ký */
+.register-page {
+    background: url("../images/banner.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    text-align: center;
+}
+
+
+/* Container đăng ký */
+.register-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* Tiêu đề */
+.register-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Ô nhập liệu */
+input[type="text"], 
+input[type="email"], 
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+}
+
+/* Nút đăng ký */
+button.create-account {
+    width: 100%;
+    padding: 10px;
+    background-color: #FFA500;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hiệu ứng hover cho nút */
+button.create-account:hover {
+    background-color: #FF8C00; /* Màu cam đậm hơn khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ */
+    color: white;
+}
+
+/* Link quay lại */
+.back-link {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+.back-link:hover {
+    color: threedlightshadow;
+}
+/* Định dạng chung cho trang đăng nhập */
+.login-page {
+    background: url("../images/banner.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Container đăng nhập */
+.login-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* Tiêu đề */
+.login-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Ô nhập liệu */
+input[type="text"], 
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+}
+
+/* Nút đăng nhập */
+button.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #FFA500;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hiệu ứng hover cho nút */
+button.login-button:hover {
+    background-color: #FF8C00; /* Màu cam đậm hơn khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ */
+    color: white;
+}
+
+/* Link quên mật khẩu và đăng ký */
+.forgot-password, .register-link {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+/* Hiệu ứng hover cho link */
+.forgot-password:hover, .register-link:hover {
+    color: threedlightshadow; 
+}
+
+
+
+
+
+    
+    

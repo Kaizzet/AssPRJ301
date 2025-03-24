@@ -17,6 +17,21 @@ public class UserDTO {
     private String address;
     private String role;
     private String createdAt;
+    private String password_hash;
+
+    public UserDTO() {
+    }
+
+    public UserDTO(int userId, String name, String email, String phone, String address, String role, String createdAt, String password_hash) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.role = role;
+        this.createdAt = createdAt;
+        this.password_hash = password_hash;
+    }
 
     public int getUserId() {
         return userId;
@@ -73,9 +88,14 @@ public class UserDTO {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-            
-            
 
-    
+    public String getPassword_hash() {
+        return password_hash;
+    }
+
+    public void setPassword_hash(String password_hash) {
+        this.password_hash = password_hash;
+    }
+
     
 }
