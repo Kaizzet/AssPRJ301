@@ -38,6 +38,35 @@ public class MainController extends HttpServlet {
 
         try {
             switch (action) {
+                case "login":
+                    String email = request.getParameter("email");
+                    String password = request.getParameter("password");
+
+                    UserDAO dao = new UserDAO();
+                    UserDTO user = dao.checkLogin(email, password);
+
+                    if (user != null) {
+                        HttpSession sessions = request.getSession();
+                        sessions.setAttribute("loggedInUser", user);
+
+                        // Kiểm tra role của user
+                        if ("admin".equalsIgnoreCase(user.getRole())) {
+                            response.sendRedirect("Ordersadmin.jsp"); // Admin vào trang quản lý
+                        } else {
+                            response.sendRedirect("MainController?action=loadProducts&page=1"); // User vào trang chính
+                        }
+                    } else {
+                        request.setAttribute("ERROR", "Sai email hoặc mật khẩu!");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    }
+
+                    break;
+
+                case "logout":
+                    session.invalidate(); // Xóa session để đăng xuất
+                    response.sendRedirect("MainController?action=loadProducts&page=1");
+                    break;
+                    
                 case "loadProducts":
                     int page = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
                     int productsPerPage = 4;

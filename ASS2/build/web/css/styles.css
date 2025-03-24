@@ -26,8 +26,11 @@ header {
     font-weight: bold;
     color: white;
     text-align: center;
-    flex-grow: 1; /* Cho phép logo tự căn giữa */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
 
 nav ul {
     list-style: none;

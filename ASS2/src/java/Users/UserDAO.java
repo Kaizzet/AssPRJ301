@@ -24,8 +24,8 @@ public class UserDAO {
                 user.setPhone(rs.getString("phone"));
                 user.setAddress(rs.getString("address"));
                 user.setRole(rs.getString("role"));
-                user.setCreatedAt(rs.getString("created_at"));
-
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                
                 users.add(user);
             }
         }
@@ -48,7 +48,7 @@ public class UserDAO {
                 user.setPhone(rs.getString("phone"));
                 user.setAddress(rs.getString("address"));
                 user.setRole(rs.getString("role"));
-                user.setCreatedAt(rs.getString("created_at"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
                 return user;
             }
         } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class UserDAO {
             stmt.setString(3, user.getPhone());
             stmt.setString(4, user.getAddress());
             stmt.setString(5, user.getRole());
-            stmt.setString(6, user.getCreatedAt());
+            stmt.setTimestamp(6, user.getCreatedAt());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -95,7 +95,7 @@ public class UserDAO {
             stmt.setString(3, user.getPhone());
             stmt.setString(4, user.getAddress());
             stmt.setString(5, user.getRole());
-            stmt.setString(6, user.getCreatedAt());
+            stmt.setTimestamp(6, user.getCreatedAt());
             stmt.setInt(7, user.getUserId());
 
             return stmt.executeUpdate() > 0;
@@ -117,4 +117,43 @@ public class UserDAO {
     }
     return false;
 }
+    
+    public UserDTO checkLogin(String email, String password) throws SQLException {
+        UserDTO user = null;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM [Users] WHERE email = ? AND password_hash = ?";
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(sql);
+                ptm.setString(1, email);
+                ptm.setString(2, password);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    int userId = rs.getInt("user_id");            
+                    String phone = rs.getString("phone");            
+                    String name = rs.getString("name");            
+                    String address = rs.getString("address");            
+                    String role = rs.getString("role");            
+                    Timestamp createdAt = rs.getTimestamp("created_at");            
+                    user = new UserDTO( userId,name,  email,  phone,  address,  role,  createdAt, password);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return user;
+    }
 }

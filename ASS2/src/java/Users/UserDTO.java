@@ -5,6 +5,8 @@
  */
 package Users;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author Longtri
@@ -16,13 +18,13 @@ public class UserDTO {
     private String phone;
     private String address;
     private String role;
-    private String createdAt;
+    private Timestamp createdAt;
     private String password_hash;
 
     public UserDTO() {
     }
 
-    public UserDTO(int userId, String name, String email, String phone, String address, String role, String createdAt, String password_hash) {
+    public UserDTO(int userId, String name, String email, String phone, String address, String role, Timestamp createdAt, String password_hash) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -81,11 +83,11 @@ public class UserDTO {
         this.role = role;
     }
 
-    public String getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 

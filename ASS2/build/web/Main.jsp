@@ -2,6 +2,13 @@
 <%@page import="Category.CategoryDTO"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List, java.util.Map, Product.ProductDTO" %>
+<%@page import="Users.UserDTO"%>
+
+<%
+    // Lấy thông tin user từ session
+    UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
+%>
+
 <%
     List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
     List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("categories");
@@ -55,7 +62,7 @@
         </style>
     </head>
     <body>
-        
+
         <header>
             <nav>
                 <ul>
@@ -79,26 +86,34 @@
             </nav>       
             <div class="logo">𝓗𝓔𝓛𝓘𝓞𝓢</div>
             <div class="user-options">
+                <% if (loggedInUser == null) {%>
                 <a style="color: white" href="<%= request.getContextPath()%>/register.jsp">Đăng ký</a>
                 <span style="color: white">/</span> 
-                <a style="color: white" href="<%= request.getContextPath()%>/login.jsp"> Đăng nhập</a>
+                <a style="color: white" href="<%= request.getContextPath()%>/login.jsp">Đăng nhập</a>
+                <% } else {%>
+                <span style="color: white">Xin chào, <%= loggedInUser.getRole().equalsIgnoreCase("admin") ? "Admin" : loggedInUser.getName()%></span>
+                <span style="color: white">|</span>
+                <a style="color: white" href="MainController?action=logout">Đăng xuất</a>
+                <% } %>
+
                 <div class="cart">
                     <a href="#">🛒</a>
                     <div class="cart-dropdown">
                         <% if (cart != null && !cart.isEmpty()) {
-                            for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
-                                ProductDTO product = new ProductDAO().getProductById(entry.getKey());
-                                if (product != null) { %>
+                                for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                                    ProductDTO product = new ProductDAO().getProductById(entry.getKey());
+                                    if (product != null) {%>
                         <div class="cart-item">
-                            <img src="<%= product.getImageUrl() %>" alt="<%= product.getName() %>">
+                            <img src="<%= product.getImageUrl()%>" alt="<%= product.getName()%>">
                             <div class="cart-item-details">
-                                <span><strong><%= product.getName() %></strong></span>
-                                <span>x<%= entry.getValue() %></span>
-                                <span><%= String.format("%,.0f", product.getPrice() * entry.getValue()) %> VNĐ</span>
+                                <span><strong><%= product.getName()%></strong></span>
+                                <span>x<%= entry.getValue()%></span>
+                                <span><%= String.format("%,.0f", product.getPrice() * entry.getValue())%> VNĐ</span>
                             </div>
                             <span class="cart-item-remove">❌</span>
                         </div>
-                        <% } } %>
+                        <% }
+                            } %>
                         <a href="MainController?action=viewCart">Xem giỏ hàng</a>
                         <% } else { %>
                         <p>Giỏ hàng trống</p>
@@ -157,12 +172,12 @@
                 document.querySelectorAll(".add-to-cart").forEach(button => {
                     button.addEventListener("click", function () {
                         let productId = this.getAttribute("data-product-id");
-                        fetch("MainController?action=addToCart&productId=" + productId, { method: "GET" })
-                            .then(response => response.json())
-                            .then(data => {
-                                alert("Sản phẩm đã được thêm vào giỏ hàng!");
-                            })
-                            .catch(error => console.error("Lỗi:", error));
+                        fetch("MainController?action=addToCart&productId=" + productId, {method: "GET"})
+                                .then(response => response.json())
+                                .then(data => {
+                                    alert("Sản phẩm đã được thêm vào giỏ hàng!");
+                                })
+                                .catch(error => console.error("Lỗi:", error));
                     });
                 });
             });
