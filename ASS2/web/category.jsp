@@ -66,7 +66,7 @@
                     <h3><%= p.getName()%></h3>
                     <p><strong><%= String.format("%,.0f", p.getPrice())%> VNĐ</strong></p>
                     <p><%= p.getDescription()%></p>
-                    <button>Thêm nhanh</button>
+                    <button class="add-to-cart" data-product-id="<%= p.getProductId()%>">Thêm nhanh</button>
                 </div>
         <%  }
         } else { %>
