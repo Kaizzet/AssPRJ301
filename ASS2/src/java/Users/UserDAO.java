@@ -58,31 +58,32 @@ public class UserDAO {
     }
 
     // Thêm người dùng mới
-    public boolean insertUser(UserDTO user) {
-        String sql = "INSERT INTO Users (name, email, phone, address, role, created_at) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DBUtils.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+   public static boolean insertUser(UserDTO user) {
+    String sql = "INSERT INTO Users (name, email, phone, address, role, created_at, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try (Connection conn = DBUtils.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPhone());
-            stmt.setString(4, user.getAddress());
-            stmt.setString(5, user.getRole());
-            stmt.setTimestamp(6, user.getCreatedAt());
+        stmt.setString(1, user.getName());
+        stmt.setString(2, user.getEmail());
+        stmt.setString(3, user.getPhone());
+        stmt.setString(4, user.getAddress());
+        stmt.setString(5, user.getRole());
+        stmt.setTimestamp(6, user.getCreatedAt());
+        stmt.setString(7, user.getPassword()); // Lưu mật khẩu
 
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    user.setUserId(rs.getInt(1)); // Lấy ID vừa tạo
-                }
-                return true;
+        int rowsAffected = stmt.executeUpdate();
+        if (rowsAffected > 0) {
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {    
+                user.setUserId(rs.getInt(1)); // Lấy ID vừa tạo
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return true;
         }
-        return false;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return false;
+}
 
     // Cập nhật thông tin người dùng
     public boolean updateUser(UserDTO user) {
@@ -123,7 +124,7 @@ public class UserDAO {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM [Users] WHERE email = ? AND password_hash = ?";
+        String sql = "SELECT * FROM [Users] WHERE email = ? AND password = ?";
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {

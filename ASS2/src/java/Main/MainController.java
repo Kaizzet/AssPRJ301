@@ -17,6 +17,7 @@ import Users.UserDAO;
 import Users.UserDTO;
 import Category.CategoryDAO;
 import Category.CategoryDTO;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 @WebServlet(name = "MainController", urlPatterns = {"/MainController", "/"})
@@ -66,7 +67,29 @@ public class MainController extends HttpServlet {
                     session.invalidate(); // Xóa session để đăng xuất
                     response.sendRedirect("MainController?action=loadProducts&page=1");
                     break;
+
+                case "register":
+
+                    String name = request.getParameter("name");
+                    String emails = request.getParameter("email");
+                    String passwords = request.getParameter("password");
+                    String phone = request.getParameter("phone");
+                    String address = "";
+                    String role = "user"; // Mặc định khi đăng ký là user
+                    Timestamp createdAt = new Timestamp(System.currentTimeMillis());
                     
+
+                    // Tạo đối tượng UserDTO
+                    UserDTO users = new UserDTO(0, name, emails, phone, address, role, createdAt, passwords);
+                    UserDAO userDAOs = new UserDAO();                  
+
+                    boolean isRegistered = UserDAO.insertUser(users);
+
+                    if (isRegistered) {
+                        request.setAttribute("message", "Đăng ký thành công!");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    }
+                    return;
                 case "loadProducts":
                     int page = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
                     int productsPerPage = 4;
@@ -155,8 +178,8 @@ public class MainController extends HttpServlet {
                     break;
 
                 case "manageUsers":
-                    List<UserDTO> users = userDAO.getAllUsers();
-                    request.setAttribute("users", users);
+                    List<UserDTO> userr = userDAO.getAllUsers();
+                    request.setAttribute("users", userr);
                     request.getRequestDispatcher("manageUsers.jsp").forward(request, response);
                     break;
                 case "deleteUser":

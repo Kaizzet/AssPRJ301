@@ -11,11 +11,15 @@
 <body class="register-page">
     <div class="register-container">
         <h2>Tạo tài khoản</h2>
-        <form action="RegisterServlet" method="post">
-            <input type="text" name="lastname" placeholder="Họ" required>
-            <input type="text" name="firstname" placeholder="Tên" required>
+        <%-- Hiển thị thông báo thành công hoặc thất bại --%>
+
+
+        <form action="MainController" method="post">
+            <input type="hidden" name="action" value="register">          
+            <input type="text" name="name" placeholder="Họ và Tên" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="text" name="phone" placeholder="Số điện thoại" required>
+            <input type="text" name="address" placeholder="Địa chỉ">
             <input type="password" name="password" placeholder="Mật khẩu" required>
             <button class="create-account" type="submit">Tạo tài khoản</button>
         </form>

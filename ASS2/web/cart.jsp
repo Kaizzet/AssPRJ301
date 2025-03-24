@@ -90,7 +90,7 @@
         }
     </style>
 </head>
-<body>
+<body class="cart-page">
     <div class="cart-container">
         <a href="MainController?action=loadProducts" class="home-btn">🏠 Trang chủ</a>
         <h2>Giỏ hàng của bạn</h2>

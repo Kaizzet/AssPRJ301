@@ -19,12 +19,12 @@ public class UserDTO {
     private String address;
     private String role;
     private Timestamp createdAt;
-    private String password_hash;
+    private String password;
 
     public UserDTO() {
     }
 
-    public UserDTO(int userId, String name, String email, String phone, String address, String role, Timestamp createdAt, String password_hash) {
+    public UserDTO(int userId, String name, String email, String phone, String address, String role, Timestamp createdAt, String password) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -32,7 +32,7 @@ public class UserDTO {
         this.address = address;
         this.role = role;
         this.createdAt = createdAt;
-        this.password_hash = password_hash;
+        this.password = password;
     }
 
     public int getUserId() {
@@ -91,12 +91,12 @@ public class UserDTO {
         this.createdAt = createdAt;
     }
 
-    public String getPassword_hash() {
-        return password_hash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassword_hash(String password_hash) {
-        this.password_hash = password_hash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     
