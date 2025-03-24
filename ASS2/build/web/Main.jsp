@@ -96,7 +96,6 @@
                                 <span>x<%= entry.getValue() %></span>
                                 <span><%= String.format("%,.0f", product.getPrice() * entry.getValue()) %> VNĐ</span>
                             </div>
-                            <span class="cart-item-remove">❌</span>
                         </div>
                         <% } } %>
                         <a href="MainController?action=viewCart">Xem giỏ hàng</a>
