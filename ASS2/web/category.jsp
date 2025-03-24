@@ -1,4 +1,4 @@
-w<%@page import="java.util.HashMap"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="Product.ProductDAO"%>
 <%@page import="java.util.Map"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

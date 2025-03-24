@@ -133,29 +133,5 @@
             }
         }
     </script>
-    <script>
-        function updateCartCount() {
-    fetch("MainController?action=cartCount")
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("cart-count").innerText = data;
-        })
-        .catch(error => console.error("Lỗi cập nhật giỏ hàng:", error));
-}
-
-// Gọi hàm này sau khi thêm vào giỏ hàng
-document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-    button.addEventListener("click", function () {
-        let productId = this.getAttribute("data-id");
-        fetch("MainController?action=addToCart&productId=" + productId)
-            .then(response => response.json())
-            .then(() => updateCartCount()); // Cập nhật giỏ hàng ngay lập tức
-    });
-});
-
-// Cập nhật giỏ hàng khi tải trang
-window.onload = updateCartCount;
-
-    </script>
 </body>
 </html>
