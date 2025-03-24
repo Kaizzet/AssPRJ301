@@ -71,7 +71,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (OrderDTO order : orderList) {%>
+                         <% for (OrderDTO order : orderList) {%>
                         <tr>
                             <td>#<%= order.getOrderId()%></td>
                             <td><%= order.getCreatedAt()%></td>
@@ -105,8 +105,7 @@
             </div>
 
             <!-- ✅ Phân trang -->
-            <div class="pagination">
-                <%
+            < <%
                     int totalOrders = orderDAO.getTotalOrders();
                     int totalPages = (int) Math.ceil((double) totalOrders / ordersPerPage);
                 %>
@@ -125,7 +124,7 @@
 
     <!-- ✅ Scripts -->
     <script>
-        function editOrder(orderId) {
+         function editOrder(orderId) {
             window.location.href = `EditOrder.jsp?orderId=${orderId}`;
         }
 
@@ -146,9 +145,8 @@
                 })
                 .catch(error => console.error("Lỗi:", error));
             }
-        }
-
-        function updateOrderStatus(orderId) {
+            }
+         function updateOrderStatus(orderId) {
             let statusSelect = document.getElementById("status_" + orderId);
             let newStatus = statusSelect.value;
 

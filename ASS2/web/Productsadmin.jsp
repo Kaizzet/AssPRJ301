@@ -3,8 +3,7 @@
 <%@ page import="Product.ProductDTO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vi">
-    <head>
+<head>
         <meta charset="UTF-8">
         <title>Products Admin</title>
         <link rel="stylesheet" href="<%= request.getContextPath()%>/css/admin.css">
@@ -144,4 +143,4 @@
             }
         </script>
     </body>
-</html>
+    </html>

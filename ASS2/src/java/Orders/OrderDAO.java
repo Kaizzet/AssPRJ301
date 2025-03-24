@@ -8,7 +8,7 @@ import java.util.List;
 public class OrderDAO {
 
     // Lấy danh sách tất cả đơn hàng
-    public List<OrderDTO> getAllOrders() {
+   public List<OrderDTO> getAllOrders() {
         List<OrderDTO> orderList = new ArrayList<>();
         String sql = "SELECT o.*, COUNT(oi.product_id) AS total_items "
                 + "FROM orders o "
@@ -33,9 +33,9 @@ public class OrderDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return orderList;
-    }
-
+         return orderList;
+   }
+   
     // Lấy đơn hàng theo ID
     public OrderDTO getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE order_id = ?";

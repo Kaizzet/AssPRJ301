@@ -151,7 +151,7 @@
             return userList;
         }
         
-         public List<UserDTO> getUsersByPage(int page, int limit) {
+          public List<UserDTO> getUsersByPage(int page, int limit) {
         List<UserDTO> userList = new ArrayList<>();
         int offset = (page - 1) * limit;
         

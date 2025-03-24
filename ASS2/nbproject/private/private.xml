@@ -3,11 +3,29 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SUMMER-2025/PRJ301/AssPRJ301/AssPRJ301/ASS2/src/java/Main/MainController.java</file>
-            <file>file:/D:/SUMMER-2025/PRJ301/AssPRJ301/AssPRJ301/ASS2/web/Main.jsp</file>
-            <file>file:/D:/SUMMER-2025/PRJ301/AssPRJ301/AssPRJ301/ASS2/web/cart.jsp</file>
-            <file>file:/D:/SUMMER-2025/PRJ301/AssPRJ301/AssPRJ301/ASS2/src/java/Product/ProductDAO.java</file>
-            <file>file:/D:/SUMMER-2025/PRJ301/AssPRJ301/AssPRJ301/ASS2/src/java/Product/ProductDTO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Review/ReviewDTO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/login.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Users/UserDTO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/Employeesadmin.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/utils/DBUtils.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/cart.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Orders/OrderDTO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/paging.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Main/MainController.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Users/UserDAO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/Productsadmin.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/Ordersadmin.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/register.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/Homepageadmin.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Orders/OrderDAO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Product/ProductDAO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Product/ProductDTO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/css/admin.css</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/Usersadmin.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/web/Main.jsp</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/Review/ReviewDAO.java</file>
+            <file>file:/C:/Users/phanp/Desktop/MAS/AssPRJ301/ASS2/src/java/OrderItem/OderItemDTO.java</file>
         </group>
     </open-files>
 </project-private>
