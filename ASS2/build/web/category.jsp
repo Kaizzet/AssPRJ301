@@ -76,9 +76,32 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-    <p>&copy; 2025 Helios. All rights reserved.</p>
-</footer>
+<footer class="footer">
+            <div class="footer-container">
+            <!-- Cột 1: KẾT NỐI VỚI CHÚNG TÔI -->
+            <div class="footer-column">
+            <h2>KẾT NỐI VỚI CHÚNG TÔI</h2>
+            <p>
+                HELIOS Shop ra đời nhằm mục đích đem đến các dòng sản phẩm trang sức dành cho mọi người: 
+                từ vòng tay thanh lịch, dây chuyền, khuyên tai độc đáo đến những món quà tinh tế. 
+                Mỗi chiếc tác phẩm đều là tâm huyết và sáng tạo, 
+                với hy vọng mang đến trải nghiệm tuyệt vời cho khách hàng.
+            </p>
+            <p>Hotline tư vấn:</p>
+            
+            <p>Hỗ trợ: 0981.551.616</p>
+            <p>Email: support@helios.vn</p>
+            <!-- Logo/badge minh họa -->
+            
+            </div>
+
+        <!-- Cột 2: CHĂM SÓC KHÁCH HÀNG -->
+        
+
+        <!-- Cột 3: VỀ CHÚNG TÔI -->
+        
+        </div>
+    </footer>
 
 </body>
 </html>
