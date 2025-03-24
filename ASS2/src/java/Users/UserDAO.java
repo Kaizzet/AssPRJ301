@@ -150,5 +150,54 @@
             }
             return userList;
         }
-
+        
+         public List<UserDTO> getUsersByPage(int page, int limit) {
+        List<UserDTO> userList = new ArrayList<>();
+        int offset = (page - 1) * limit;
+        
+        String sql = "SELECT * FROM Users WHERE role = 'user' ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, offset);
+            stmt.setInt(2, limit);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                UserDTO user = new UserDTO();
+                user.setUserId(rs.getInt("user_id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getString("address"));
+                user.setRole(rs.getString("role"));
+                user.setCreatedAt(rs.getString("created_at"));
+                
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
     }
+         
+          public int getTotalUsers() {
+   int count = 0;
+        String sql = "SELECT COUNT(*) FROM users";
+
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+          
+          }
+}
+       

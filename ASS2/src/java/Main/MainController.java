@@ -151,11 +151,12 @@ public class MainController extends HttpServlet {
                     }
                     break;
 
-                case "searchUsers":
+                case "searchProducts":
                     String keyword = request.getParameter("keyword");
-                    List<UserDTO> userList = userDAO.searchUsers(keyword);
-                    request.setAttribute("userList", userList);
-                    request.getRequestDispatcher("Usersadmin.jsp").forward(request, response);
+                    List<ProductDTO> searchResults = productDAO.searchProducts(keyword);
+                    request.setAttribute("products", searchResults);
+                    request.setAttribute("keyword", keyword);
+                    request.getRequestDispatcher("Productsadmin.jsp").forward(request, response);
                     break;
                 case "editOrder":
                     try {
@@ -168,21 +169,62 @@ public class MainController extends HttpServlet {
                         request.getRequestDispatcher("Ordersadmin.jsp").forward(request, response);
                     }
                     break;
-               case "updateOrderStatus":
-    int orderId = Integer.parseInt(request.getParameter("orderId"));
-    String status = request.getParameter("status");
+                case "updateOrderStatus":
+                    response.setContentType("text/plain");
+                    response.setCharacterEncoding("UTF-8");
 
-    System.out.println("Received orderId: " + orderId + ", status: " + status); // Debug
+                    try {
+                        String orderIdStr = request.getParameter("orderId");
+                        String status = request.getParameter("status");
 
-    boolean updated = orderDAO.updateOrderStatus(orderId, status);
+                        // Debug log
+                        System.out.println("Received update request: orderId=" + orderIdStr + ", status=" + status);
 
-    System.out.println("Update result: " + updated); // Debug
+                        // Kiểm tra orderId có rỗng không
+                        if (orderIdStr == null || orderIdStr.trim().isEmpty()) {
+                            response.getWriter().write("error: orderId is empty");
+                            return;
+                        }
 
-    response.getWriter().write(updated ? "success" : "error");
-    break;
+                        int orderIdToUpdate = Integer.parseInt(orderIdStr);
 
-                default:
-                    request.getRequestDispatcher("Main.jsp").forward(request, response);
+                        orderDAO = new OrderDAO();
+                        boolean updated = orderDAO.updateOrderStatus(orderIdToUpdate, status);
+
+                        if (updated) {
+                            System.out.println("Update success for orderId: " + orderIdToUpdate);
+                            response.getWriter().write("success");
+                        } else {
+                            System.out.println("Update failed for orderId: " + orderIdToUpdate);
+                            response.getWriter().write("fail");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error: Invalid orderId format");
+                        response.getWriter().write("error: invalid orderId");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        response.getWriter().write("error");
+                    }
+                    break;
+                case "updateProduct":
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    try {
+                        int productIdupdate = Integer.parseInt(request.getParameter("productId"));
+                        String name = request.getParameter("name").trim();
+                        String material = request.getParameter("material").trim();
+                        double price = Double.parseDouble(request.getParameter("price"));
+                        int amount = Integer.parseInt(request.getParameter("amount"));
+
+                        productDAO = new ProductDAO();
+                        boolean isUpdated = productDAO.updateProduct(productIdupdate, name, material, price, amount);
+
+                        response.getWriter().write("{\"status\":\"" + (isUpdated ? "success" : "fail") + "\"}");
+                    } catch (NumberFormatException e) {
+                        response.getWriter().write("{\"status\":\"error\", \"message\":\"Invalid number format\"}");
+                    } catch (Exception e) {
+                        response.getWriter().write("{\"status\":\"error\", \"message\":\"Server error\"}");
+                    }
                     break;
             }
         } catch (Exception e) {
