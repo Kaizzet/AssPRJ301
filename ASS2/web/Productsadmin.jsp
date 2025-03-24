@@ -15,11 +15,10 @@
     <div class="nav-left">
       <h2 class="logo">HELIOS</h2>
       <ul class="nav-menu">
-        <li><a href="Homepageadmin.jsp">Home</a></li>
+        <li><a href="Homepageadmin.jsp" class="active">Home</a></li>
         <li><a href="Ordersadmin.jsp">Orders</a></li>
-        <li><a href="Productsadmin.jsp" class="active">Products</a></li>
-        <li><a href="Employeesadmin.jsp">Employees</a></li>
-        <li><a href="Reviewsadmin.jsp">Reviews</a></li>
+        <li><a href="Productsadmin.jsp">Products</a></li>
+        <li><a href="Usersadmin.jsp">Users</a></li>
       </ul>
     </div>
     <div class="nav-right">

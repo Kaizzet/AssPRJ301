@@ -130,6 +130,21 @@ public class MainController extends HttpServlet {
                     request.setAttribute("users", users);
                     request.getRequestDispatcher("manageUsers.jsp").forward(request, response);
                     break;
+                case "deleteUser":
+                    try {
+                        int userId = Integer.parseInt(request.getParameter("userId"));
+                        boolean deleted = userDAO.deleteUser(userId);
+                        if (deleted) {
+                            response.sendRedirect("MainController?action=manageUsers");
+                        } else {
+                            request.setAttribute("error", "Không thể xóa người dùng.");
+                            request.getRequestDispatcher("Users.jsp").forward(request, response);
+                        }
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Lỗi khi xóa người dùng: " + e.getMessage());
+                        request.getRequestDispatcher("Users.jsp").forward(request, response);
+                    }
+                    break;
                 default:
                     request.getRequestDispatcher("Main.jsp").forward(request, response);
                     break;
@@ -157,4 +172,3 @@ public class MainController extends HttpServlet {
         return "Main Controller - Quản lý tất cả các chức năng chính";
     }
 }
-
