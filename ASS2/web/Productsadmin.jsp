@@ -35,7 +35,6 @@
         <table id="productsTable">
           <thead>
             <tr>
-              <th><input type="checkbox" onclick="toggleAll('productsTable')"></th>
               <th>PRODUCT ID</th>
               <th>NAME</th>
               <th>MATERIAL</th>
@@ -53,7 +52,6 @@
                 for (ProductDTO product : productList) { 
             %>
             <tr>
-              <td><input type="checkbox"></td>
               <td><%= product.getProductId() %></td>
               <td><%= product.getName() %></td>
               <td><%= product.getMaterial() %></td>

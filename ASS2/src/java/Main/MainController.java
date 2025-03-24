@@ -120,31 +120,67 @@ public class MainController extends HttpServlet {
                     break;
 
                 case "manageOrders":
-                    List<OrderDTO> orders = orderDAO.getAllOrders();
-                    request.setAttribute("orders", orders);
-                    request.getRequestDispatcher("manageOrders.jsp").forward(request, response);
+                    List<OrderDTO> orderList = orderDAO.getAllOrders();
+                    request.setAttribute("orderList", orderList);
+                    request.getRequestDispatcher("Ordersadmin.jsp").forward(request, response);
                     break;
-
                 case "manageUsers":
                     List<UserDTO> users = userDAO.getAllUsers();
                     request.setAttribute("users", users);
-                    request.getRequestDispatcher("manageUsers.jsp").forward(request, response);
+                    request.getRequestDispatcher("Usersadmin.jsp").forward(request, response);
                     break;
                 case "deleteUser":
                     try {
-                        int userId = Integer.parseInt(request.getParameter("userId"));
-                        boolean deleted = userDAO.deleteUser(userId);
-                        if (deleted) {
-                            response.sendRedirect("MainController?action=manageUsers");
+                        String userIdStr = request.getParameter("userId");
+                        if (userIdStr != null && userIdStr.matches("\\d+")) { // Kiểm tra số hợp lệ
+                            int userId = Integer.parseInt(userIdStr);
+                            boolean deleted = userDAO.deleteUser(userId);
+                            if (deleted) {
+                                response.sendRedirect("MainController?action=manageUsers");
+                            } else {
+                                request.setAttribute("error", "Không thể xóa người dùng.");
+                                request.getRequestDispatcher("Usersadmin.jsp").forward(request, response);
+                            }
                         } else {
-                            request.setAttribute("error", "Không thể xóa người dùng.");
-                            request.getRequestDispatcher("Users.jsp").forward(request, response);
+                            request.setAttribute("error", "ID người dùng không hợp lệ.");
+                            request.getRequestDispatcher("Usersadmin.jsp").forward(request, response);
                         }
                     } catch (Exception e) {
                         request.setAttribute("error", "Lỗi khi xóa người dùng: " + e.getMessage());
-                        request.getRequestDispatcher("Users.jsp").forward(request, response);
+                        request.getRequestDispatcher("Usersadmin.jsp").forward(request, response);
                     }
                     break;
+
+                case "searchUsers":
+                    String keyword = request.getParameter("keyword");
+                    List<UserDTO> userList = userDAO.searchUsers(keyword);
+                    request.setAttribute("userList", userList);
+                    request.getRequestDispatcher("Usersadmin.jsp").forward(request, response);
+                    break;
+                case "editOrder":
+                    try {
+                        int orderId = Integer.parseInt(request.getParameter("orderId"));
+                        OrderDTO order = orderDAO.getOrderById(orderId);
+                        request.setAttribute("order", order);
+                        request.getRequestDispatcher("Ordersadmin.jsp").forward(request, response);
+                    } catch (Exception e) {
+                        request.setAttribute("error", "Lỗi khi tải đơn hàng: " + e.getMessage());
+                        request.getRequestDispatcher("Ordersadmin.jsp").forward(request, response);
+                    }
+                    break;
+               case "updateOrderStatus":
+    int orderId = Integer.parseInt(request.getParameter("orderId"));
+    String status = request.getParameter("status");
+
+    System.out.println("Received orderId: " + orderId + ", status: " + status); // Debug
+
+    boolean updated = orderDAO.updateOrderStatus(orderId, status);
+
+    System.out.println("Update result: " + updated); // Debug
+
+    response.getWriter().write(updated ? "success" : "error");
+    break;
+
                 default:
                     request.getRequestDispatcher("Main.jsp").forward(request, response);
                     break;

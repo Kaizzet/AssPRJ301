@@ -25,17 +25,23 @@
       <img src="../images/avatar.png" alt="Avatar" class="avatar">
     </div>
   </nav>
+
   <div class="sub-header">
     <h1>Users</h1>
-    <input type="text" id="searchInput" class="search-box" placeholder="Search users..." onkeyup="searchTable()">
+    <form method="GET">
+        <input type="text" id="searchInput" name="keyword" placeholder="Nhập từ khóa..." 
+               value="<%= request.getParameter("keyword") != null ? request.getParameter("keyword") : "" %>"
+               onkeyup="searchUsers()">
+        <button type="submit">Tìm kiếm</button>
+    </form>
   </div>
+
   <div class="content">
     <section class="page-section">
       <div class="table-container">
         <table id="usersTable">
           <thead>
             <tr>
-              <th><input type="checkbox" onclick="toggleAll('usersTable')"></th>
               <th>USER ID</th>
               <th>NAME</th>
               <th>EMAIL</th>
@@ -47,73 +53,96 @@
           </thead>
           <tbody>
             <% 
-                UserDAO userDAO = new UserDAO();
-                List<UserDTO> userList = userDAO.getAllUsers();
-                for (UserDTO user : userList) { 
+              UserDAO userDAO = new UserDAO();
+              String keyword = request.getParameter("keyword");
+              List<UserDTO> userList = (keyword != null && !keyword.isEmpty()) 
+                                        ? userDAO.searchUsers(keyword) 
+                                        : userDAO.getAllUsers();
+
+              if (userList.isEmpty()) { 
             %>
-            <tr id="userRow-<%= user.getUserId() %>">
-  <td><input type="checkbox"></td>
-  <td><%= user.getUserId() %></td>
-  <td><%= user.getName() %></td>
-  <td><%= user.getEmail() %></td>
-  <td><%= user.getPhone() %></td>
-  <td><%= user.getAddress() %></td>
-  <td><%= user.getCreatedAt() %></td>
-  <td>
-    <span class="material-icons edit-icon" onclick="editRow(this)">edit</span>
-    <span class="material-icons delete-icon" onclick="confirmDelete(<%= user.getUserId() %>)">delete</span>
-  </td>
-</tr>
-            <% } %>
+                <tr>
+                  <td colspan="7" style="text-align:center;">Không tìm thấy người dùng</td>
+                </tr>
+            <% } else {
+                for (UserDTO user : userList) { %>
+                  <tr id="userRow-<%= user.getUserId() %>">
+                    <td><%= user.getUserId() %></td>
+                    <td><%= user.getName() %></td>
+                    <td><%= user.getEmail() %></td>
+                    <td><%= user.getPhone() %></td>
+                    <td><%= user.getAddress() %></td>
+                    <td><%= user.getCreatedAt() %></td>
+                    <td>
+   
+                      <span class="material-icons delete-icon" onclick="confirmDelete(<%= user.getUserId() %>)">delete</span>
+                    </td>
+                  </tr>
+                <% } 
+              } %>
           </tbody>
         </table>
       </div>
-      <div class="pagination">
-        <a href="#">&laquo; Previous</a>
-        <a href="#" class="active">1</a>
-        <a href="#">Next &raquo;</a>
-      </div>
     </section>
   </div>
+
   <script>
-    function searchTable() {
-      const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const rows = document.getElementById('usersTable').querySelectorAll('tbody tr');
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.indexOf(keyword) > -1 ? '' : 'none';
-      });
+    function searchUsers() {
+      let keyword = document.getElementById('searchInput').value;
+
+      fetch("MainController?action=searchUsers&keyword=" + encodeURIComponent(keyword), {
+          method: "GET"
+      })
+      .then(response => response.json())
+      .then(data => {
+          let tableBody = document.querySelector("#usersTable tbody");
+          tableBody.innerHTML = ""; // Xóa dữ liệu cũ
+
+          if (data.length === 0) {
+              tableBody.innerHTML = "<tr><td colspan='7' style='text-align:center'>Không tìm thấy người dùng</td></tr>";
+              return;
+          }
+
+          data.forEach(user => {
+              let row = `<tr id="userRow-${user.userId}">
+                  <td>${user.userId}</td>
+                  <td>${user.name}</td>
+                  <td>${user.email}</td>
+                  <td>${user.phone}</td>
+                  <td>${user.address}</td>
+                  <td>${user.createdAt}</td>
+                  <td>
+                      <span class="material-icons edit-icon" onclick="editRow(this)">edit</span>
+                      <span class="material-icons delete-icon" onclick="confirmDelete(${user.userId})">delete</span>
+                  </td>
+              </tr>`;
+              tableBody.innerHTML += row;
+          });
+      })
+      .catch(error => console.error("Lỗi khi tìm kiếm:", error));
     }
-    function toggleAll(tableId) {
-      const table = document.getElementById(tableId);
-      const headCB = table.querySelector('thead input[type="checkbox"]');
-      const rowCBs = table.querySelectorAll('tbody input[type="checkbox"]');
-      rowCBs.forEach(cb => cb.checked = headCB.checked);
+
+    function confirmDelete(userId) {
+      if (confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
+          fetch("MainController?action=deleteUser&userId=" + userId, {
+              method: "GET"
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.status === "success") {
+                  document.getElementById("userRow-" + userId).remove();
+              } else {
+                  alert("Xóa thất bại: " + data.message);
+              }
+          })
+          .catch(error => console.error("Lỗi khi gửi yêu cầu xóa:", error));
+      }
     }
+
     function editRow(elem) {
       alert("Edit row (demo).");
     }
-    function deleteRow(elem) {
-      alert("Delete row (demo).");
-    }
-    function confirmDelete(userId) {
-    if (confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
-        fetch("MainController?action=deleteUser&userId=" + userId, {
-            method: "GET"
-        })
-        .then(response => response.json()) 
-        .then(data => {
-            if (data.status === "success") {
-                // Xóa hàng tương ứng trên giao diện
-                document.getElementById("userRow-" + userId).remove();
-            } else {
-                alert("Xóa thất bại: " + data.message);
-            }
-        })
-        .catch(error => console.error("Lỗi khi gửi yêu cầu xóa:", error));
-    }
-}
-
   </script>
+
 </body>
 </html>
