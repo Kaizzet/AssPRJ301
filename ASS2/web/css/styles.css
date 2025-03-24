@@ -8,7 +8,7 @@
 /* Body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #000;
 }
 
 /* Header */
@@ -505,6 +505,8 @@ button.login-button:hover {
     font-size: 24px;          /* Cỡ chữ */
     font-weight: bold;        /* Chữ đậm */
     }
+    
+    
 
 
 
