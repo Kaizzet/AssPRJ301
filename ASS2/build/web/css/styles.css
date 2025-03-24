@@ -481,6 +481,30 @@ button.login-button:hover {
     color: threedlightshadow; 
 }
 
+.add-to-cart {
+    background-color: #ffa500; /* Màu cam */
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
+    }
+
+    .add-to-cart:hover {
+    background-color: #ff8c00; /* Màu cam đậm hơn khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+    }
+    .sanphammoi {
+    display: flex;
+    justify-content: center;  /* Căn giữa theo chiều ngang */
+    align-items: center;      /* Căn giữa theo chiều dọc */
+    height: 10vh;            /* Chiều cao 100% của màn hình */
+    font-size: 24px;          /* Cỡ chữ */
+    font-weight: bold;        /* Chữ đậm */
+    }
 
 
 

@@ -113,7 +113,7 @@
         </section>
 
         <section class="products">
-            <h2>Sản phẩm mới</h2>
+            <h2 class="sanphammoi">Sản phẩm mới</h2>
             <div class="product-list">
                 <% if (products != null && !products.isEmpty()) {
                         for (ProductDTO p : products) {%>
@@ -137,6 +137,22 @@
         </footer>
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let header = document.querySelector("header");
+
+                // Khi không di chuột vào, header sẽ mất màu
+                header.classList.add("transparent");
+
+                // Khi trỏ chuột vào header, nó hiện màu đen
+                header.addEventListener("mouseenter", function () {
+                    header.classList.remove("transparent");
+                });
+
+                // Khi chuột rời khỏi header, nó trở lại trong suốt
+                header.addEventListener("mouseleave", function () {
+                    header.classList.add("transparent");
+                });
+            });
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".add-to-cart").forEach(button => {
                     button.addEventListener("click", function () {
