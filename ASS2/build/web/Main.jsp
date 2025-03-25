@@ -2,13 +2,6 @@
 <%@page import="Category.CategoryDTO"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List, java.util.Map, Product.ProductDTO" %>
-<%@page import="Users.UserDTO"%>
-
-<%
-    // Lấy thông tin user từ session
-    UserDTO loggedInUser = (UserDTO) session.getAttribute("loggedInUser");
-%>
-
 <%
     List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
     List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("categories");
@@ -62,7 +55,7 @@
         </style>
     </head>
     <body>
-
+        
         <header>
             <nav>
                 <ul>
@@ -86,34 +79,25 @@
             </nav>       
             <div class="logo">𝓗𝓔𝓛𝓘𝓞𝓢</div>
             <div class="user-options">
-                <% if (loggedInUser == null) {%>
                 <a style="color: white" href="<%= request.getContextPath()%>/register.jsp">Đăng ký</a>
                 <span style="color: white">/</span> 
-                <a style="color: white" href="<%= request.getContextPath()%>/login.jsp">Đăng nhập</a>
-                <% } else {%>
-                <span style="color: white">Xin chào, <%= loggedInUser.getRole().equalsIgnoreCase("admin") ? "Admin" : loggedInUser.getName()%></span>
-                <span style="color: white">|</span>
-                <a style="color: white" href="MainController?action=logout">Đăng xuất</a>
-                <% } %>
-
-                <div class="cart">
+                <a style="color: white" href="<%= request.getContextPath()%>/login.jsp"> Đăng nhập</a>
+                <div class="cart" >
                     <a href="#">🛒</a>
                     <div class="cart-dropdown">
                         <% if (cart != null && !cart.isEmpty()) {
-                                for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
-                                    ProductDTO product = new ProductDAO().getProductById(entry.getKey());
-                                    if (product != null) {%>
+                            for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                                ProductDTO product = new ProductDAO().getProductById(entry.getKey());
+                                if (product != null) { %>
                         <div class="cart-item">
-                            <img src="<%= product.getImageUrl()%>" alt="<%= product.getName()%>">
+                            <img src="<%= product.getImageUrl() %>" alt="<%= product.getName() %>">
                             <div class="cart-item-details">
-                                <span><strong><%= product.getName()%></strong></span>
-                                <span>x<%= entry.getValue()%></span>
-                                <span><%= String.format("%,.0f", product.getPrice() * entry.getValue())%> VNĐ</span>
+                                <span><strong><%= product.getName() %></strong></span>
+                                <span>x<%= entry.getValue() %></span>
+                                <span><%= String.format("%,.0f", product.getPrice() * entry.getValue()) %> VNĐ</span>
                             </div>
-                            <span class="cart-item-remove">❌</span>
                         </div>
-                        <% }
-                            } %>
+                        <% } } %>
                         <a href="MainController?action=viewCart">Xem giỏ hàng</a>
                         <% } else { %>
                         <p>Giỏ hàng trống</p>
@@ -147,9 +131,32 @@
         </section>
         <jsp:include page="paging.jsp"/>
 
-        <footer>
-            <p>&copy; 2025 Helios. All rights reserved.</p>
-        </footer>
+        <footer class="footer">
+    <div class="footer-container">
+        <!-- Cột 1: KẾT NỐI VỚI CHÚNG TÔI -->
+        <div class="footer-column">
+            <h2>KẾT NỐI VỚI CHÚNG TÔI</h2>
+            <p>
+                HELIOS Shop ra đời nhằm mục đích đem đến các dòng sản phẩm trang sức dành cho mọi người: 
+                từ vòng tay thanh lịch, dây chuyền, khuyên tai độc đáo đến những món quà tinh tế. 
+                Mỗi chiếc tác phẩm đều là tâm huyết và sáng tạo, 
+                với hy vọng mang đến trải nghiệm tuyệt vời cho khách hàng.
+            </p>
+            <p>Hotline tư vấn:</p>
+            
+            <p>Hỗ trợ: 0981.551.616</p>
+            <p>Email: support@helios.vn</p>
+            <!-- Logo/badge minh họa -->
+            
+        </div>
+
+        <!-- Cột 2: CHĂM SÓC KHÁCH HÀNG -->
+        
+
+        <!-- Cột 3: VỀ CHÚNG TÔI -->
+        
+    </div>
+</footer>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -172,12 +179,12 @@
                 document.querySelectorAll(".add-to-cart").forEach(button => {
                     button.addEventListener("click", function () {
                         let productId = this.getAttribute("data-product-id");
-                        fetch("MainController?action=addToCart&productId=" + productId, {method: "GET"})
-                                .then(response => response.json())
-                                .then(data => {
-                                    alert("Sản phẩm đã được thêm vào giỏ hàng!");
-                                })
-                                .catch(error => console.error("Lỗi:", error));
+                        fetch("MainController?action=addToCart&productId=" + productId, { method: "GET" })
+                            .then(response => response.json())
+                            .then(data => {
+                                alert("Sản phẩm đã được thêm vào giỏ hàng!");
+                            })
+                            .catch(error => console.error("Lỗi:", error));
                     });
                 });
             });
